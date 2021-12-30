@@ -36,24 +36,16 @@ class SpreadsheetSnippets(object):
     def batch_update(self, spreadsheet_id, title, find, replacement):
         service = self.service
         # [START sheets_batch_update]
-        requests = []
-        # Change the spreadsheet's title.
-        requests.append({
-            'updateSpreadsheetProperties': {
+        requests = [{'updateSpreadsheetProperties': {
                 'properties': {
                     'title': title
                 },
                 'fields': 'title'
-            }
-        })
-        # Find and replace text
-        requests.append({
-            'findReplace': {
+            }}, {'findReplace': {
                 'find': find,
                 'replacement': replacement,
                 'allSheets': True
-            }
-        })
+            }}]
         # Add additional requests (operations) ...
 
         body = {
@@ -188,10 +180,7 @@ class SpreadsheetSnippets(object):
             .get('addSheet').get('properties').get('sheetId')
         target_sheet_id = batch_update_response.get('replies')[1] \
             .get('addSheet').get('properties').get('sheetId')
-        requests = []
-        # [START sheets_pivot_tables]
-        requests.append({
-            'updateCells': {
+        requests = [{'updateCells': {
                 'rows': {
                     'values': [
                         {
@@ -237,15 +226,13 @@ class SpreadsheetSnippets(object):
                     'columnIndex': 0
                 },
                 'fields': 'pivotTable'
-            }
-        })
+            }}]
         body = {
             'requests': requests
         }
-        response = service.spreadsheets() \
-            .batchUpdate(spreadsheetId=spreadsheet_id, body=body).execute()
         # [END sheets_pivot_tables]
-        return response
+        return service.spreadsheets() \
+            .batchUpdate(spreadsheetId=spreadsheet_id, body=body).execute()
 
     def conditional_formatting(self, spreadsheet_id):
         service = self.service
@@ -390,5 +377,5 @@ class SpreadsheetSnippets(object):
         body = {'requests': [updateFilterViewRequest]}
         updateFilterViewResponse = service.spreadsheets() \
             .batchUpdate(spreadsheetId=spreadsheet_id, body=body).execute()
-        print(str(updateFilterViewResponse))
+        print(updateFilterViewResponse)
         # [END sheets_filter_views]

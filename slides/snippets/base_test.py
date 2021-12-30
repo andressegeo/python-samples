@@ -98,9 +98,7 @@ class BaseTest(unittest.TestCase):
             'magnitude': 350,
             'unit': 'PT'
         }
-        requests = []
-        requests.append({
-            'createShape': {
+        requests = [{'createShape': {
                 'objectId': box_id,
                 'shapeType': 'TEXT_BOX',
                 'elementProperties': {
@@ -117,16 +115,11 @@ class BaseTest(unittest.TestCase):
                         'unit': 'PT'
                     }
                 }
-            }
-        })
-        requests.append({
-            'insertText': {
+            }}, {'insertText': {
                 'objectId': box_id,
                 'insertionIndex': 0,
                 'text': 'New Box Text Inserted'
-            }
-        })
-
+            }}]
         body = {
             'requests': requests
         }
@@ -141,9 +134,7 @@ class BaseTest(unittest.TestCase):
             'magnitude': 4000000,
             'unit': 'EMU'
         }
-        requests = []
-        requests.append({
-            'createSheetsChart': {
+        requests = [{'createSheetsChart': {
                 'objectId': chart_id,
                 'spreadsheetId': spreadsheet_id,
                 'chartId': sheet_chart_id,
@@ -162,9 +153,7 @@ class BaseTest(unittest.TestCase):
                         'unit': 'EMU'
                     }
                 }
-            }
-        })
-
+            }}]
         body = {
             'requests': requests
         }
